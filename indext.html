@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Thanh Phong</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: skyblue;
+            margin: 0;
+            overflow: hidden;
+            transition: background-color 5s linear;
+        }
+        
+        .airplane {
+            position: absolute;
+            width: 100px;
+            transition: all 0.5s ease-in-out;
+            cursor: pointer;
+            animation: fly 5s linear forwards;
+        }
+        
+        .airplane img {
+            width: 100%;
+            height: auto;
+        }
+        
+        @keyframes fly {
+            0% {
+                left: -100px;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .trail {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 0, 0, 0.5);
+            border-radius: 50%;
+            animation: fadeOut 3s linear forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            color: black;
+            font-size: 20px;
+            border-radius: 50%;
+            border: 2px solid pink;
+            width: 350px;
+            height: 350px;
+            display: none;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .pen {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: url('pen_image_url_here');
+            background-size: cover;
+            display: none;
+            animation: write 5s linear forwards;
+        }
+        
+        @keyframes write {
+            from {
+                clip-path: inset(0 100% 0 0);
+            }
+            to {
+                clip-path: inset(0 0 0 0);
+            }
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(-45deg);
+            animation: flyHearts 5s linear infinite;
+        }
+        
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+        
+        @keyframes flyHearts {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(200px) translateY(-200px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+        
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            animation: fall 3s linear forwards;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(200px) translateX(-200px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="airplanes-container"></div>
+    <!-- Chứa tất cả các máy bay -->
+    <div class="container" id="container">
+        <h1>Thanh Phong dành riêng đến Mai Linh (Nấm🍄)</h1>
+        <p>🍄Nay có trò hay nè🍄</p>
+        <p>🍄Ấn vô bên dưới là bít🍄</p>
+        <p>🍄He🍄</p>
+        <button class="button" id="surprise-button">Ấn vô ạ!</button>
+    </div>
+    <div class="pen" id="pen"></div>
+    <script>
+        const createAirplane = () => {
+            const airplane = document.createElement('div');
+            airplane.className = 'airplane';
+            airplane.style.top = `${Math.random() * 80}%`; // Vị trí ngẫu nhiên theo chiều dọc
+            airplane.innerHTML = '<img src="nam.png" alt="Airplane">';
+            document.getElementById('airplanes-container').appendChild(airplane);
+            airplane.addEventListener('animationend', function() {
+                document.body.style.backgroundColor = 'pink';
+                document.getElementById('container').style.display = 'block';
+                document.getElementById('pen').style.display = 'block';
+            });
+        };
+
+        // Tạo nhiều máy bay
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createAirplane, i * 1000); // Tạo mỗi máy bay cách nhau 1 giây
+        }
+        document.getElementById('pen').addEventListener('animationend', function() {
+            document.getElementById('pen').style.display = 'none';
+        });
+        const createHeart = () => {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.top = `${Math.random() * window.innerHeight}px`;
+            heart.style.left = `${Math.random() * window.innerWidth}px`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        };
+
+        const startHearts = () => {
+            setInterval(createHeart, 500);
+        };
+
+        startHearts();
+
+        // Confetti burst function
+        const createConfetti = () => {
+            const confettiCount = 100;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `${Math.random() * 100}%`;
+                document.body.appendChild(confetti);
+
+                // Remove confetti after animation
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        };
+
+        document.getElementById('surprise-button').addEventListener('click', function() {
+            createConfetti();
+            window.open('traitim.html', '_blank'); // Thay thế bằng tên tệp HTML của bạn
+        });
+    </script>
+</body>
+
+</html>
